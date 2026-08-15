@@ -98,35 +98,45 @@ class ShopifyExtractor:
                 
         return resultados
 
+    async def _fetch_single_card_with_semaphore(self, semaphore: asyncio.Semaphore, client: httpx.AsyncClient, tienda_url: str, carta_nombre: str, i: int, total: int, tienda_nombre: str) -> List[Dict]:
+        """Envuelve la petición de la carta con un semáforo para limitar concurrencia."""
+        async with semaphore:
+            logger.info(f"[{tienda_nombre}] Buscando ({i}/{total}): '{carta_nombre}'")
+            # Añadimos un pequeño sleep base si tienes un delay configurado para evitar ráfagas instantáneas
+            if self.delay > 0:
+                await asyncio.sleep(self.delay)
+            return await self._fetch_single_card(client, tienda_url, carta_nombre)
+
     async def _procesar_tienda(self, client: httpx.AsyncClient, tienda: str, cartas: List[str]) -> List[Dict]:
-        """Procesa todas las cartas de UNA SOLA tienda de forma secuencial."""
-        resultados_tienda = []
+        """Procesa las cartas de una tienda CONCURRENTEMENTE usando un semáforo."""
         total_cartas = len(cartas)
-        
-        # Limpiar la URL para mostrar un nombre corto en el log (ej: oasisgames.cl)
         tienda_nombre = tienda.replace("https://", "").replace("www.", "").rstrip('/')
         
-        for i, carta in enumerate(cartas, 1):
-            logger.info(f"[{tienda_nombre}] Buscando ({i}/{total_cartas}): '{carta}'")
-            
-            res = await self._fetch_single_card(client, tienda, carta)
-            resultados_tienda.extend(res)
-            
-            # Aplicar la pausa de cortesía solo si no es la última carta
-            if i < total_cartas:
-                await asyncio.sleep(self.delay)
-                
-        return resultados_tienda
+        # Límite estricto de peticiones simultáneas por tienda para evitar bloqueos
+        limite_concurrencia = 5 
+        semaforo = asyncio.Semaphore(limite_concurrencia)
+        
+        # Generar todas las tareas de golpe
+        tareas = [
+            self._fetch_single_card_with_semaphore(
+                semaforo, client, tienda, carta, i, total_cartas, tienda_nombre
+            )
+            for i, carta in enumerate(cartas, 1)
+        ]
+        
+        # Ejecutarlas concurrentemente respetando el semáforo
+        resultados_brutos = await asyncio.gather(*tareas)
+        
+        # Aplanar lista de listas
+        return [item for sublist in resultados_brutos for item in sublist]
 
     async def extraer_precios_batch(self, tiendas: List[str], cartas: List[str]) -> List[Dict]:
-        logger.info(f"Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): {len(cartas)} cartas en {len(tiendas)} tiendas.")
+        logger.info(f"Iniciando extracción asíncrona CONCURRENTE TOTAL: {len(cartas)} cartas en {len(tiendas)} tiendas Shopify.")
         
-        async with httpx.AsyncClient(headers=self.headers, timeout=20.0, follow_redirects=True) as client:
-            # Agrupamos las tareas por tienda. Se ejecutarán simultáneamente, pero internamente irán carta por carta.
+        async with httpx.AsyncClient(headers=self.headers, timeout=30.0, follow_redirects=True) as client:
             tareas = [self._procesar_tienda(client, tienda, cartas) for tienda in tiendas]
-            
             resultados_brutos = await asyncio.gather(*tareas)
-            datos_consolidados = [item for sublist in resultados_brutos for item in sublist]
             
-            logger.info(f"Extracción finalizada. {len(datos_consolidados)} variantes EN STOCK obtenidas.")
+            datos_consolidados = [item for sublist in resultados_brutos for item in sublist]
+            logger.info(f"Extracción Shopify finalizada. {len(datos_consolidados)} variantes EN STOCK obtenidas.")
             return datos_consolidados
