@@ -1,0 +1,16 @@
+[project]
+name = "mtg-price-tracker"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "alembic>=1.19.1",
+    "beautifulsoup4>=4.15.0",
+    "h2>=4.4.1",
+    "httpx>=0.28.1",
+    "pandas>=3.0.5",
+    "pyodbc>=5.3.0",
+    "sqlalchemy>=2.0.52",
+    "streamlit>=1.61.1",
+]
