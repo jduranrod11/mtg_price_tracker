@@ -19,11 +19,11 @@ async def ejecutar_todos_los_motores(tiendas_por_extractor, cartas_nombres):
         # Agregamos la ejecución asíncrona a la lista de tareas
         tareas.append(extractor_instancia.extraer_precios_batch(urls_asignadas, cartas_nombres))
 
-        # asyncio.gather ejecuta todas las tareas de la lista simultáneamente
-        resultados_agrupados = await asyncio.gather(*tareas)
+    # asyncio.gather ejecuta todas las tareas de la lista simultáneamente
+    resultados_agrupados = await asyncio.gather(*tareas)
 
-        # Aplanar la lista de listas
-        return [item for sublist in resultados_agrupados for item in sublist]
+    # Aplanar la lista de listas
+    return [item for sublist in resultados_agrupados for item in sublist]
 
 def main():
     logger.info("=== INICIANDO PIPELINE MTG TRACKER ===")

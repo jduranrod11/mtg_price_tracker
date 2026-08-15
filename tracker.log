@@ -2502,3 +2502,420 @@ WHERE dim_tiendas.url_base = ?
 2026-08-15 12:59:12 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (7/126): 'Blast Zone'
 2026-08-15 12:59:21 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (7/126): 'Blast Zone'
 2026-08-15 12:59:31 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:32:12 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:32:12 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:32:12 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:32:12 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:32:12 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:32:12 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:32:12 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:32:12 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:32:12 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:32:12 | INFO     | src.extractors.cardkingdom | ⏳ Descargando catálogo de la API de Card Kingdom (esto tomará unos segundos)...
+2026-08-15 13:32:13 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:32:13 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:32:13 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:32:13 | ERROR    | src.extractors.cardkingdom | ❌ Error descargando la API de Card Kingdom: Client error '403 Forbidden' for url 'https://api.cardkingdom.com/api/v2/pricelist'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+2026-08-15 13:32:15 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:32:17 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:32:20 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:32:22 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:32:24 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:32:26 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:32:27 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:32:29 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:32:30 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:32:31 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:32:31 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:35:05 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:35:05 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:35:05 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:35:05 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:35:05 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:35:05 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:35:05 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:35:05 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:35:05 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:35:05 | INFO     | src.extractors.cardkingdom | ⏳ Descargando catálogo de la API de Card Kingdom (esto tomará unos segundos)...
+2026-08-15 13:35:05 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:35:05 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:35:05 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:35:05 | ERROR    | src.extractors.cardkingdom | ❌ Error descargando la API de Card Kingdom: Client error '403 Forbidden' for url 'https://api.cardkingdom.com/api/v2/pricelist'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+2026-08-15 13:35:08 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:35:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:35:12 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:38:10 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:38:10 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:38:10 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:38:10 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:38:10 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:38:10 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:38:10 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:38:10 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:38:10 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:38:10 | INFO     | src.extractors.cardkingdom | ⏳ Descargando catálogo de la API de Card Kingdom (esto tomará unos segundos)...
+2026-08-15 13:38:10 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:38:10 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:38:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:38:10 | ERROR    | src.extractors.cardkingdom | ❌ Error descargando la API de Card Kingdom: Client error '403 Forbidden' for url 'https://api.cardkingdom.com/api/v2/pricelist'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/403
+2026-08-15 13:38:13 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:38:14 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:41:19 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:41:19 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:41:19 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:41:19 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:41:19 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:41:19 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:41:19 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:41:19 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:41:20 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:41:20 | INFO     | src.extractors.cardkingdom | ⏳ Descargando catálogo de la API de Card Kingdom (con evasión TLS)...
+2026-08-15 13:41:20 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:41:20 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:41:20 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:41:20 | ERROR    | src.extractors.cardkingdom | ❌ Error HTTP 403 de Card Kingdom
+2026-08-15 13:41:22 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:41:24 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:41:26 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:41:29 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:41:31 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:41:33 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:41:33 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:41:36 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:41:37 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:41:38 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:41:40 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (10/126): 'Breaker of Creation'
+2026-08-15 13:41:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (11/126): 'Buried Ruin'
+2026-08-15 13:41:45 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (12/126): 'Cityscape Leveler'
+2026-08-15 13:41:47 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (13/126): 'Coldsteel Heart'
+2026-08-15 13:41:49 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (14/126): 'Darksteel Citadel'
+2026-08-15 13:41:51 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (15/126): 'Darksteel Monolith'
+2026-08-15 13:41:52 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:41:54 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (16/126): 'Desecrate Reality'
+2026-08-15 13:41:56 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (17/126): 'Devourer of Destiny'
+2026-08-15 13:41:57 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:41:58 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (18/126): 'Eldrazi Temple'
+2026-08-15 13:42:00 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (19/126): 'Eldritch Immunity'
+2026-08-15 13:42:03 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (20/126): 'Emrakul, the Promised End'
+2026-08-15 13:42:05 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (21/126): 'Emrakul, the World Anew'
+2026-08-15 13:42:07 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:42:08 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (22/126): 'Eye of Ugin'
+2026-08-15 13:42:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (23/126): 'Field of Ruin'
+2026-08-15 13:42:12 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (24/126): 'Fomori Vault'
+2026-08-15 13:42:14 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (25/126): 'Forsaken Monument'
+2026-08-15 13:42:14 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:42:17 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (26/126): 'Fractured Powerstone'
+2026-08-15 13:42:19 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (27/126): 'Ghost Quarter'
+2026-08-15 13:42:21 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (28/126): 'Glaring Fleshraker'
+2026-08-15 13:42:24 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (29/126): 'Green Dragon Inn'
+2026-08-15 13:42:26 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (30/126): 'H.E.R.B.I.E., Lovable Robot'
+2026-08-15 13:42:27 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:42:28 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (31/126): 'Hedron Archive'
+2026-08-15 13:42:31 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (32/126): 'Hedron Crawler'
+2026-08-15 13:42:33 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:42:33 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (33/126): 'Inventors' Fair'
+2026-08-15 13:42:35 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:42:35 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (34/126): 'It That Betrays'
+2026-08-15 13:42:37 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (35/126): 'It That Heralds the End'
+2026-08-15 13:42:40 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (36/126): 'Jhoira's Familiar'
+2026-08-15 13:42:41 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:42:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (37/126): 'Kozilek, Butcher of Truth'
+2026-08-15 13:42:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (38/126): 'Kozilek, the Great Distortion'
+2026-08-15 13:42:47 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (39/126): 'Manakin'
+2026-08-15 13:42:49 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (40/126): 'Myr Convert'
+2026-08-15 13:42:51 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (41/126): 'Not of This World'
+2026-08-15 13:42:53 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (42/126): 'Ornithopter of Paradise'
+2026-08-15 13:42:54 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:42:56 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (43/126): 'Page, Loose Leaf'
+2026-08-15 13:42:58 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (44/126): 'Palladium Myr'
+2026-08-15 13:43:00 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (45/126): 'Plague Myr'
+2026-08-15 13:43:02 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:43:03 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (46/126): 'Planar Nexus'
+2026-08-15 13:43:05 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (47/126): 'Portal to Phyrexia'
+2026-08-15 13:43:07 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (48/126): 'Prismatic Lens'
+2026-08-15 13:43:09 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (49/126): 'Sanctum of Ugin'
+2026-08-15 13:43:12 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (50/126): 'Scavenger Grounds'
+2026-08-15 13:43:14 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (51/126): 'Shrine of the Forsaken Gods'
+2026-08-15 13:43:14 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:43:17 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (52/126): 'Solar Transformer'
+2026-08-15 13:43:19 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (53/126): 'Solemn Simulacrum'
+2026-08-15 13:43:21 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (54/126): 'Spawnbed Protector'
+2026-08-15 13:43:22 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:43:23 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (55/126): 'Stonespeaker Crystal'
+2026-08-15 13:43:24 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:43:26 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (56/126): 'Summon: Bahamut'
+2026-08-15 13:43:28 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (57/126): 'The Irencrag'
+2026-08-15 13:43:30 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (58/126): 'Tomb of the Spirit Dragon'
+2026-08-15 13:43:32 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:43:32 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (59/126): 'Ugin, Eye of the Storms'
+2026-08-15 13:43:35 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (60/126): 'Ugin, the Spirit Dragon'
+2026-08-15 13:43:37 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (61/126): 'Ugin's Labyrinth'
+2026-08-15 13:43:39 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (62/126): 'Ulamog, the Ceaseless Hunger'
+2026-08-15 13:43:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (63/126): 'Ulamog, the Defiler'
+2026-08-15 13:43:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (64/126): 'Ulamog, the Infinite Gyre'
+2026-08-15 13:43:44 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (10/126): 'Breaker of Creation'
+2026-08-15 13:43:46 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (65/126): 'Ultima, Origin of Oblivion'
+2026-08-15 13:43:48 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (11/126): 'Buried Ruin'
+2026-08-15 13:43:48 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (66/126): 'Urza's Cave'
+2026-08-15 13:43:51 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (67/126): 'Urza's Mine'
+2026-08-15 13:43:53 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (10/126): 'Breaker of Creation'
+2026-08-15 13:43:53 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (68/126): 'Urza's Power Plant'
+2026-08-15 13:43:55 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (69/126): 'Urza's Tower'
+2026-08-15 13:43:56 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (11/126): 'Buried Ruin'
+2026-08-15 13:43:57 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (70/126): 'Urza's Workshop'
+2026-08-15 13:43:59 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (71/126): 'Vibranium Dynamo'
+2026-08-15 13:44:02 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (72/126): 'Void Winnower'
+2026-08-15 13:44:04 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (73/126): 'Volatile Fault'
+2026-08-15 13:44:06 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (74/126): 'War Room'
+2026-08-15 13:44:08 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (75/126): 'Warping Wail'
+2026-08-15 13:44:08 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (12/126): 'Cityscape Leveler'
+2026-08-15 13:44:11 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (76/126): 'Wastes'
+2026-08-15 13:44:13 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (77/126): 'Wayfarer's Bauble'
+2026-08-15 13:44:15 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (78/126): 'Worn Powerstone'
+2026-08-15 13:44:17 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (12/126): 'Cityscape Leveler'
+2026-08-15 13:44:17 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (79/126): 'Zhalfirin Void'
+2026-08-15 13:44:20 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (80/126): 'Acorn Harvest'
+2026-08-15 13:44:20 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (13/126): 'Coldsteel Heart'
+2026-08-15 13:44:22 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (81/126): 'Avatar Sanctuary'
+2026-08-15 13:44:24 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (82/126): 'Banner of Kinship'
+2026-08-15 13:44:26 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (83/126): 'Beastmaster Ascension'
+2026-08-15 13:44:28 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (13/126): 'Coldsteel Heart'
+2026-08-15 13:44:29 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (84/126): 'Champion of Lambholt'
+2026-08-15 13:44:31 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (85/126): 'Chatter of the Squirrel'
+2026-08-15 13:44:33 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (14/126): 'Darksteel Citadel'
+2026-08-15 13:44:33 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (86/126): 'Chitterspitter'
+2026-08-15 13:44:36 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (87/126): 'Deep Forest Hermit'
+2026-08-15 13:44:38 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (88/126): 'Druid's Call'
+2026-08-15 13:44:40 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (89/126): 'Emerald Medallion'
+2026-08-15 13:44:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (90/126): 'Enduring Vitality'
+2026-08-15 13:44:44 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (14/126): 'Darksteel Citadel'
+2026-08-15 13:44:45 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (91/126): 'Essence Warden'
+2026-08-15 13:44:47 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (92/126): 'Firdoch Core'
+2026-08-15 13:44:49 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (93/126): 'Fog'
+2026-08-15 13:44:52 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (94/126): 'Frog-Squirrels'
+2026-08-15 13:44:54 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (15/126): 'Darksteel Monolith'
+2026-08-15 13:44:54 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (95/126): 'Go Nuts!'
+2026-08-15 13:44:56 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (96/126): 'Growing Rites of Itlimoc / Itlimoc, Cradle of the Sun'
+2026-08-15 13:44:58 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (97/126): 'Guardian Project'
+2026-08-15 13:44:59 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (16/126): 'Desecrate Reality'
+2026-08-15 13:45:01 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (98/126): 'Honored Dreyleader'
+2026-08-15 13:45:03 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (99/126): 'Idol of Oblivion'
+2026-08-15 13:45:05 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (15/126): 'Darksteel Monolith'
+2026-08-15 13:45:05 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (17/126): 'Devourer of Destiny'
+2026-08-15 13:45:05 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (100/126): 'Jaheira, Friend of the Forest'
+2026-08-15 13:45:08 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (101/126): 'Mana Reflection'
+2026-08-15 13:45:10 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (16/126): 'Desecrate Reality'
+2026-08-15 13:45:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (102/126): 'Nature's Lore'
+2026-08-15 13:45:11 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (18/126): 'Eldrazi Temple'
+2026-08-15 13:45:13 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (103/126): 'Noxious Newt'
+2026-08-15 13:45:15 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (104/126): 'Ohran Frostfang'
+2026-08-15 13:45:16 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (17/126): 'Devourer of Destiny'
+2026-08-15 13:45:18 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (105/126): 'Patchwork Banner'
+2026-08-15 13:45:20 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (106/126): 'Primal Rage'
+2026-08-15 13:45:22 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (18/126): 'Eldrazi Temple'
+2026-08-15 13:45:23 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (107/126): 'Quest for Renewal'
+2026-08-15 13:45:25 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (108/126): 'Rootcast Apprenticeship'
+2026-08-15 13:45:28 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (109/126): 'Sakura-Tribe Elder'
+2026-08-15 13:45:30 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (110/126): 'Scurrid Colony'
+2026-08-15 13:45:31 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (19/126): 'Eldritch Immunity'
+2026-08-15 13:45:32 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (111/126): 'Scurry of Squirrels'
+2026-08-15 13:45:35 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (112/126): 'Search for Tomorrow'
+2026-08-15 13:45:37 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (113/126): 'Seedborn Muse'
+2026-08-15 13:45:37 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (20/126): 'Emrakul, the Promised End'
+2026-08-15 13:45:39 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (114/126): 'Selfless Safewright'
+2026-08-15 13:45:41 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (115/126): 'Shamanic Revelation'
+2026-08-15 13:45:42 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (19/126): 'Eldritch Immunity'
+2026-08-15 13:45:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (116/126): 'Skullclamp'
+2026-08-15 13:45:46 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (117/126): 'Skyshroud Claim'
+2026-08-15 13:45:48 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (20/126): 'Emrakul, the Promised End'
+2026-08-15 13:45:48 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (118/126): 'Squirrel Mob'
+2026-08-15 13:45:50 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (21/126): 'Emrakul, the World Anew'
+2026-08-15 13:45:50 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (119/126): 'Squirrel Sovereign'
+2026-08-15 13:45:53 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (120/126): 'Studious First-Year / Rampant Growth'
+2026-08-15 13:45:55 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (121/126): 'Swarmyard'
+2026-08-15 13:45:57 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (122/126): 'Three Tree City'
+2026-08-15 13:46:00 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (123/126): 'Tippy-Toe, Terrific Partner'
+2026-08-15 13:46:02 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (124/126): 'Tribute to the World Tree'
+2026-08-15 13:46:03 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (22/126): 'Eye of Ugin'
+2026-08-15 13:46:04 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (125/126): 'Triumph of the Hordes'
+2026-08-15 13:46:05 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (21/126): 'Emrakul, the World Anew'
+2026-08-15 13:46:06 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (126/126): 'Verdant Command'
+2026-08-15 13:46:18 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (22/126): 'Eye of Ugin'
+2026-08-15 13:46:24 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (23/126): 'Field of Ruin'
+2026-08-15 13:46:39 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (23/126): 'Field of Ruin'
+2026-08-15 13:46:44 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (24/126): 'Fomori Vault'
+2026-08-15 13:46:54 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (25/126): 'Forsaken Monument'
+2026-08-15 13:47:00 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (24/126): 'Fomori Vault'
+2026-08-15 13:47:09 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (26/126): 'Fractured Powerstone'
+2026-08-15 13:47:09 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (25/126): 'Forsaken Monument'
+2026-08-15 13:47:22 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (27/126): 'Ghost Quarter'
+2026-08-15 13:47:24 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (26/126): 'Fractured Powerstone'
+2026-08-15 13:47:37 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (27/126): 'Ghost Quarter'
+2026-08-15 13:47:43 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (28/126): 'Glaring Fleshraker'
+2026-08-15 13:47:46 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:47:48 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:47:48 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:47:48 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:47:48 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:47:48 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:47:48 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:47:48 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:47:48 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:47:49 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:47:49 | INFO     | src.extractors.cardkingdom | ⏳ Intentando vulnerar el firewall de Card Kingdom (Bypass Nivel 2)...
+2026-08-15 13:47:49 | INFO     | src.extractors.cardkingdom | 1. Visitando página principal para obtener cookies de clearance...
+2026-08-15 13:47:49 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:47:49 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:47:49 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:47:51 | INFO     | src.extractors.cardkingdom | 2. Accediendo al endpoint oculto de la API...
+2026-08-15 13:47:51 | ERROR    | src.extractors.cardkingdom | ❌ Firewall activo. HTTP 403: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Typ
+2026-08-15 13:47:52 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:47:54 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:47:56 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:47:59 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:48:01 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:48:02 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:48:03 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:48:06 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:48:06 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:48:08 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:48:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (10/126): 'Breaker of Creation'
+2026-08-15 13:48:13 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (11/126): 'Buried Ruin'
+2026-08-15 13:48:15 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (12/126): 'Cityscape Leveler'
+2026-08-15 13:48:17 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (13/126): 'Coldsteel Heart'
+2026-08-15 13:48:19 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (14/126): 'Darksteel Citadel'
+2026-08-15 13:48:21 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:48:22 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (15/126): 'Darksteel Monolith'
+2026-08-15 13:48:24 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (16/126): 'Desecrate Reality'
+2026-08-15 13:48:26 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (17/126): 'Devourer of Destiny'
+2026-08-15 13:48:26 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:48:29 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (18/126): 'Eldrazi Temple'
+2026-08-15 13:48:31 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (19/126): 'Eldritch Immunity'
+2026-08-15 13:48:33 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (20/126): 'Emrakul, the Promised End'
+2026-08-15 13:48:35 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (21/126): 'Emrakul, the World Anew'
+2026-08-15 13:48:36 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:48:38 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (22/126): 'Eye of Ugin'
+2026-08-15 13:48:40 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (23/126): 'Field of Ruin'
+2026-08-15 13:48:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (24/126): 'Fomori Vault'
+2026-08-15 13:48:44 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:48:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (25/126): 'Forsaken Monument'
+2026-08-15 13:48:47 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (26/126): 'Fractured Powerstone'
+2026-08-15 13:48:49 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (27/126): 'Ghost Quarter'
+2026-08-15 13:48:51 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (28/126): 'Glaring Fleshraker'
+2026-08-15 13:48:54 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (29/126): 'Green Dragon Inn'
+2026-08-15 13:48:56 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (30/126): 'H.E.R.B.I.E., Lovable Robot'
+2026-08-15 13:48:56 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:48:58 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (31/126): 'Hedron Archive'
+2026-08-15 13:49:00 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (32/126): 'Hedron Crawler'
+2026-08-15 13:49:02 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:49:03 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (33/126): 'Inventors' Fair'
+2026-08-15 13:49:04 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:49:05 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (34/126): 'It That Betrays'
+2026-08-15 13:49:07 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (35/126): 'It That Heralds the End'
+2026-08-15 13:49:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (36/126): 'Jhoira's Familiar'
+2026-08-15 13:49:10 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:49:12 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (37/126): 'Kozilek, Butcher of Truth'
+2026-08-15 13:49:14 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (38/126): 'Kozilek, the Great Distortion'
+2026-08-15 13:49:16 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (39/126): 'Manakin'
+2026-08-15 13:49:19 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (40/126): 'Myr Convert'
+2026-08-15 13:49:21 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (41/126): 'Not of This World'
+2026-08-15 13:49:22 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:49:23 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (42/126): 'Ornithopter of Paradise'
+2026-08-15 13:49:26 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (43/126): 'Page, Loose Leaf'
+2026-08-15 13:49:28 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (44/126): 'Palladium Myr'
+2026-08-15 13:49:30 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (45/126): 'Plague Myr'
+2026-08-15 13:49:30 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:49:33 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (46/126): 'Planar Nexus'
+2026-08-15 13:49:35 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (47/126): 'Portal to Phyrexia'
+2026-08-15 13:49:37 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (48/126): 'Prismatic Lens'
+2026-08-15 13:49:39 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (49/126): 'Sanctum of Ugin'
+2026-08-15 13:49:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (50/126): 'Scavenger Grounds'
+2026-08-15 13:49:43 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:49:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (51/126): 'Shrine of the Forsaken Gods'
+2026-08-15 13:49:47 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (52/126): 'Solar Transformer'
+2026-08-15 13:49:49 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (53/126): 'Solemn Simulacrum'
+2026-08-15 13:49:51 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:49:51 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (54/126): 'Spawnbed Protector'
+2026-08-15 13:49:52 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:49:54 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (55/126): 'Stonespeaker Crystal'
+2026-08-15 13:49:55 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:50:36 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:50:36 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:50:36 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:50:36 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:50:36 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:50:36 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:50:36 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:50:36 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:50:37 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:50:37 | INFO     | src.extractors.cardkingdom | ⏳ Iniciando motor Playwright para resolver el desafío JavaScript de Cloudflare...
+2026-08-15 13:50:37 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:50:37 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:50:37 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:50:37 | INFO     | src.extractors.cardkingdom | 1. Entrando a la API de Card Kingdom. Resolviendo 'Just a moment...'
+2026-08-15 13:50:39 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:50:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:50:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:50:46 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:50:48 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:50:50 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:50:50 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 5/20)
+2026-08-15 13:50:51 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:50:53 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:50:54 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:50:55 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 10/20)
+2026-08-15 13:50:55 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:50:57 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (10/126): 'Breaker of Creation'
+2026-08-15 13:51:00 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (11/126): 'Buried Ruin'
+2026-08-15 13:51:00 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 15/20)
+2026-08-15 13:51:02 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (12/126): 'Cityscape Leveler'
+2026-08-15 13:51:04 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (13/126): 'Coldsteel Heart'
+2026-08-15 13:51:05 | ERROR    | src.extractors.cardkingdom | ❌ El navegador no pudo pasar la verificación de Cloudflare a tiempo.
+2026-08-15 13:51:07 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (14/126): 'Darksteel Citadel'
+2026-08-15 13:51:08 | INFO     | __main__ | === PIPELINE FINALIZADO ===
+2026-08-15 13:52:39 | INFO     | __main__ | === INICIANDO PIPELINE MTG TRACKER ===
+2026-08-15 13:52:39 | INFO     | __main__ | Sincronizando dimensiones (Tiendas y Cartas) en la BD...
+2026-08-15 13:52:39 | INFO     | __main__ | Determinando motor de extracción por tienda...
+2026-08-15 13:52:39 | INFO     | __main__ | Lanzando todos los extractores a la red simultáneamente...
+2026-08-15 13:52:39 | INFO     | __main__ | Preparando motor ShopifyExtractor para 2 tiendas...
+2026-08-15 13:52:39 | INFO     | __main__ | Preparando motor WooCommerceExtractor para 1 tiendas...
+2026-08-15 13:52:39 | INFO     | __main__ | Preparando motor CardKingdomExtractor para 1 tiendas...
+2026-08-15 13:52:39 | INFO     | src.extractors.shopify | Iniciando extracción asíncrona (Tiendas concurrentes, Cartas secuenciales): 126 cartas en 2 tiendas.
+2026-08-15 13:52:39 | INFO     | src.extractors.woocommerce | Iniciando extracción asíncrona WooCommerce: 126 cartas en 1 tiendas.
+2026-08-15 13:52:39 | INFO     | src.extractors.cardkingdom | ⏳ Iniciando motor Playwright en modo VISIBLE para resolver Cloudflare...
+2026-08-15 13:52:39 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:52:39 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:52:39 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (1/126): 'Akroma's Memorial'
+2026-08-15 13:52:40 | INFO     | src.extractors.cardkingdom | 1. Entrando a la API de Card Kingdom. Si ves una casilla de verificación, ¡haz clic en ella!
+2026-08-15 13:52:42 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:52:44 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:52:45 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 5/30)
+2026-08-15 13:52:46 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (4/126): 'Artisan of Kozilek'
+2026-08-15 13:52:48 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (5/126): 'Bane of Bala Ged'
+2026-08-15 13:52:50 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 10/30)
+2026-08-15 13:52:50 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (6/126): 'Basalt Monolith'
+2026-08-15 13:52:52 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:52:53 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (7/126): 'Blast Zone'
+2026-08-15 13:52:55 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (8/126): 'Blasted Landscape'
+2026-08-15 13:52:55 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 15/30)
+2026-08-15 13:52:56 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (2/126): 'All Is Dust'
+2026-08-15 13:52:57 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (9/126): 'Bonders' Enclave'
+2026-08-15 13:52:59 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (10/126): 'Breaker of Creation'
+2026-08-15 13:53:00 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 20/30)
+2026-08-15 13:53:01 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (11/126): 'Buried Ruin'
+2026-08-15 13:53:03 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (12/126): 'Cityscape Leveler'
+2026-08-15 13:53:05 | INFO     | src.extractors.cardkingdom |    ... Aún resolviendo Cloudflare (Intento 25/30)
+2026-08-15 13:53:06 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (13/126): 'Coldsteel Heart'
+2026-08-15 13:53:08 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (14/126): 'Darksteel Citadel'
+2026-08-15 13:53:10 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (15/126): 'Darksteel Monolith'
+2026-08-15 13:53:10 | ERROR    | src.extractors.cardkingdom | ❌ El navegador no pudo pasar la verificación de Cloudflare a tiempo.
+2026-08-15 13:53:11 | INFO     | src.extractors.shopify | [oasisgames.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:53:12 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (16/126): 'Desecrate Reality'
+2026-08-15 13:53:14 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (17/126): 'Devourer of Destiny'
+2026-08-15 13:53:16 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (18/126): 'Eldrazi Temple'
+2026-08-15 13:53:17 | INFO     | src.extractors.shopify | [paytowin.cl] Buscando (3/126): 'Arch of Orazca'
+2026-08-15 13:53:18 | INFO     | src.extractors.woocommerce | [cardnexus.cl] Buscando (19/126): 'Eldritch Immunity'
+2026-08-15 13:53:20 | INFO     | __main__ | === PIPELINE FINALIZADO ===
