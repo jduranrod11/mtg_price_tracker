@@ -20,7 +20,7 @@ def load_data():
         UltimosPrecios AS (
             SELECT 
                 c.nombre AS Carta,
-                c.mazi AS Mazo,
+                c.mazo AS Mazo,
                 t.nombre AS Tienda,
                 p.edicion AS Edicion,
                 p.acabado AS Acabado,
@@ -38,7 +38,7 @@ def load_data():
             JOIN dim_tiendas t ON p.tienda_id = t.id
         )
         SELECT 
-            Carta, Tienda, Edicion, Acabado, Idioma, Estado, Variantes, Precio_CLP, Fecha_Registro
+            Carta, Mazo, Tienda, Edicion, Acabado, Idioma, Estado, Variantes, Precio_CLP, Fecha_Registro
         FROM UltimosPrecios
         CROSS JOIN UltimaExtraccion ue
         WHERE rn = 1 AND Fecha_Registro >= ue.limite_inferior
@@ -66,12 +66,22 @@ else:
 
     # --- Filtros Laterales ---
     st.sidebar.header("Filtros de Búsqueda")
+
+    # Filtro por Mazo
+    # Usamos dropna() por si hay cartas que aún no tienen un mazo asignado
+    mazos_disponibles = sorted(df['Mazo'].dropna().unique())
+    mazos_seleccionados = st.sidebar.multiselect("Filtrar por Mazo", options=mazos_disponibles)
+
     cartas_seleccionadas = st.sidebar.multiselect("Filtrar por Carta", options=sorted(df['Carta'].unique()))
     tiendas_seleccionadas = st.sidebar.multiselect("Filtrar por Tienda", options=sorted(df['Tienda'].unique()))
     
     df_filtrado = df.copy()
+    if mazos_seleccionados:
+        df_filtrado = df_filtrado[df_filtrado['Mazo'].isin(mazos_seleccionados)]
+
     if cartas_seleccionadas:
         df_filtrado = df_filtrado[df_filtrado['Carta'].isin(cartas_seleccionadas)]
+
     if tiendas_seleccionadas:
         df_filtrado = df_filtrado[df_filtrado['Tienda'].isin(tiendas_seleccionadas)]
 
@@ -146,7 +156,7 @@ else:
             st.markdown("**📊 Análisis de Dólar Efectivo por Carta**")
             
             # Ordenamos y preparamos las columnas financieras
-            columnas_mostrar = ['Carta', 'Tienda', 'Estado', 'Precio_CLP', 'CK_USD', 'Dolar_Efectivo', 'Evaluación']
+            columnas_mostrar = ['Carta', 'Mazo', 'Tienda', 'Estado', 'Precio_CLP', 'CK_USD', 'Dolar_Efectivo', 'Evaluación']
             
             st.dataframe(
                 df_benchmark[columnas_mostrar].style.format({
