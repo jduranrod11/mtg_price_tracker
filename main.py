@@ -1,6 +1,7 @@
 import asyncio
 import pandas as pd
 import urllib.parse
+from datetime import datetime
 
 from src.db import engine, Base, Tienda, Carta, HistorialPrecio, SessionLocal
 from src.extractors.factory import ExtractorFactory
@@ -26,7 +27,8 @@ async def ejecutar_todos_los_motores(tiendas_por_extractor, cartas_nombres):
     return [item for sublist in resultados_agrupados for item in sublist]
 
 def main():
-    logger.info("=== INICIANDO PIPELINE MTG TRACKER ===")
+    run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+    logger.info(f"=== INICIANDO PIPELINE MTG TRACKER | RUN ID: {run_id} ===")
     
     # 1. INICIALIZACIÓN DE BASE DE DATOS
     Base.metadata.create_all(bind=engine)
@@ -36,7 +38,10 @@ def main():
         "https://www.oasisgames.cl",
         "https://www.paytowin.cl",
         "https://cardnexus.cl",
-        "https://www.cardkingdom.com"
+        "https://huntercardtcg.com",
+        "https://www.catlotus.cl",
+        "https://reino-eldrazi.cl",
+        # "https://www.cardkingdom.com"
     ]
     cartas_target = {
         "Akroma's Memorial": "Zhulodok, Void Gorger",
@@ -252,6 +257,7 @@ def main():
             carta = session.query(Carta).filter_by(nombre=registro['carta_nombre']).first()
             
             nuevo_precio = HistorialPrecio(
+                ejecucion_id=run_id,
                 carta_id=carta.id,
                 tienda_id=tienda.id,
                 edicion=atributos['edicion'],

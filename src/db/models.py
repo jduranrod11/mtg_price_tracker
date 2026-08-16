@@ -20,6 +20,7 @@ class Carta(Base):
 class HistorialPrecio(Base):
     __tablename__ = 'fact_precios'
     id = Column(Integer, primary_key=True, autoincrement=True)
+    ejecucion_id = Column(String, index=True, nullable=False)
     carta_id = Column(Integer, ForeignKey('dim_cartas.id'), nullable=False)
     tienda_id = Column(Integer, ForeignKey('dim_tiendas.id'), nullable=False)
     

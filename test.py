@@ -2,40 +2,34 @@ import asyncio
 import httpx
 import json
 
-async def test_woocommerce_api():
-    # Endpoint nativo de WooCommerce Store API
-    url = "https://cardnexus.cl/wp-json/wc/store/products?search=akromas+memorial"
+async def investigar_reino_eldrazi():
+    # Endpoint predictivo estándar de Shopify
+    url_shopify = "https://reino-eldrazi.cl/search/suggest.json?q=akroma&resources[type]=product"
     
     headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-        'Accept': 'application/json',
-        'Accept-Language': 'es-CL,es;q=0.9,en;q=0.8'
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'application/json'
     }
     
-    print(f"🌐 Consultando API nativa de WooCommerce: {url}\n")
+    print(f"🔍 Lanzando sonda a la API nativa de Shopify en Reino Eldrazi...")
+    print(f"URL: {url_shopify}\n")
     
-    async with httpx.AsyncClient(headers=headers, http2=True, follow_redirects=True) as client:
-        response = await client.get(url)
-        
-        if response.status_code == 200:
-            productos = response.json()
-            print(f"✅ ¡API Abierta! Se encontraron {len(productos)} productos.")
+    async with httpx.AsyncClient(headers=headers, follow_redirects=True) as client:
+        try:
+            response = await client.get(url_shopify)
+            print(f"Status Code: {response.status_code}")
             
-            for prod in productos:
-                print(f"\n--- {prod.get('name')} ---")
-                print(f"Tipo: {prod.get('type')} | SKU: {prod.get('sku')}")
+            if response.status_code == 200:
+                datos = response.json()
+                print("✅ ¡Bingo! La API nativa de Shopify está abierta. Aquí está la estructura:\n")
+                # Imprimimos un extracto para analizar las llaves
+                print(json.dumps(datos, indent=2)[:1500])
+            else:
+                print("❌ La API nativa está cerrada o modificada.")
+                print("   Siguiente paso: Usar F12 en el navegador para cazar la API de su buscador.")
                 
-                # Precios base
-                precios = prod.get('prices', {})
-                print(f"Precio Base: {precios.get('price')} {precios.get('currency_code')}")
-                
-                # Revisar si tiene variantes (como Estado o Idioma)
-                if prod.get('has_options'):
-                    print("Atributos disponibles:")
-                    print(json.dumps(prod.get('attributes', []), indent=2))
-        else:
-            print(f"❌ La API Store está cerrada o bloqueada. Código HTTP: {response.status_code}")
-            print(response.text[:200])
+        except Exception as e:
+            print(f"❌ Error de conexión: {e}")
 
 if __name__ == "__main__":
-    asyncio.run(test_woocommerce_api())
+    asyncio.run(investigar_reino_eldrazi())

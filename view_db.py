@@ -9,6 +9,7 @@ def visualizar_base_datos():
     query = """
         SELECT 
             c.nombre AS Carta,
+            c.mazo AS Mazo,
             t.nombre AS Tienda,
             p.edicion AS Edicion,
             p.acabado AS Acabado,

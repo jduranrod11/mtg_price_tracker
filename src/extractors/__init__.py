@@ -5,4 +5,5 @@ Módulo de Extractores Web.
 from .shopify import ShopifyExtractor
 from .woocommerce import WooCommerceExtractor
 from .cardkingdom import CardKingdomExtractor
+from .catlotus import CatLotusExtractor
 from .factory import ExtractorFactory

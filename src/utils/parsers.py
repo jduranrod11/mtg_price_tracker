@@ -1,10 +1,13 @@
 import re
+import html # <-- IMPORTANTE: Agregamos esta librería nativa
 
 def parsear_atributos_carta(titulo_tienda: str) -> dict:
-    titulo_upper = titulo_tienda.upper()
+    # Decodificar entidades HTML (Convierte '&#8211;' en '-')
+    titulo_limpio = html.unescape(titulo_tienda)
+    titulo_upper = titulo_limpio.upper()
     
     # 1. Extraer Edición
-    match_edicion = re.search(r'\[(.*?)\]', titulo_tienda)
+    match_edicion = re.search(r'\[(.*?)\]', titulo_limpio)
     edicion = match_edicion.group(1).strip() if match_edicion else ""
     
     # 2. Extraer Idioma
@@ -44,6 +47,12 @@ def parsear_atributos_carta(titulo_tienda: str) -> dict:
     if "RETRO" in titulo_upper: variantes.append("Retro")
     if "BORDERLESS" in titulo_upper: variantes.append("Borderless")
     if "EXTENDED ART" in titulo_upper: variantes.append("Extended Art")
+    
+    # --- NUEVO: Extraer Número de Coleccionista ---
+    # Ahora que el HTML está decodificado, el regex encontrará el número real
+    match_numero = re.search(r'#\s*\d+', titulo_upper)
+    if match_numero:
+        variantes.append(match_numero.group(0))
     
     return {
         "edicion": edicion,
