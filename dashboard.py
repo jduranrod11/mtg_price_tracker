@@ -14,10 +14,12 @@ engine = create_engine("sqlite:///mtg_tracker.db")
 
 @st.cache_data(ttl=60)
 def load_data():
+    # Nueva consulta SQL: Rescata la última ejecución INDEPENDIENTE de cada tienda
     query = """
-        WITH UltimaExtraccion AS (
-            SELECT MAX(ejecucion_id) as last_run 
+        WITH UltimaExtraccionPorTienda AS (
+            SELECT tienda_id, MAX(ejecucion_id) as last_run 
             FROM fact_precios
+            GROUP BY tienda_id
         ),
         PreciosVigentes AS (
             SELECT 
@@ -34,8 +36,9 @@ def load_data():
             FROM fact_precios p
             JOIN dim_cartas c ON p.carta_id = c.id
             JOIN dim_tiendas t ON p.tienda_id = t.id
-            CROSS JOIN UltimaExtraccion ue
-            WHERE p.ejecucion_id = ue.last_run
+            JOIN UltimaExtraccionPorTienda ue 
+                ON p.tienda_id = ue.tienda_id 
+                AND p.ejecucion_id = ue.last_run
         )
         SELECT 
             Carta, Mazo, Tienda, Edicion, Acabado, Idioma, Estado, Variantes, 
@@ -50,9 +53,10 @@ def load_data():
     try:
         df = pd.read_sql_query(query, engine)
         return df
-    except Exception:
+    except Exception as e:
+        st.error(f"Error cargando base de datos: {e}")
         return pd.DataFrame()
-
+    
 df = load_data()
 
 # --- FUNCIÓN PARA OBTENER IMÁGENES DE SCRYFALL ---
