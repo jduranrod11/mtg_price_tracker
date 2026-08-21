@@ -8,3 +8,18 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Artefactos que se regeneran en cada corrida (ver CLAUDE.md, Higiene del repositorio).
+# Ojo: .gitignore no admite comentarios al final de la línea del patrón.
+
+# ~65 MB, lo repone el flujo HITL de Card Kingdom
+ck_pricelist_cache.json
+
+# Base local: se reconstruye con `alembic upgrade head` + `uv run main.py`
+mtg_tracker.db
+
+tracker.log
+debug_search.html
+
+# Caché de pytest
+.pytest_cache/

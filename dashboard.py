@@ -1,63 +1,55 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
-import urllib.parse
 import requests
-from sqlalchemy import create_engine
+import urllib.parse
+from datetime import datetime
+from pathlib import Path
+
+from src.db import engine
+from src.analytics import (
+    TASA_USD_CLP_REFERENCIA,
+    a_hora_local,
+    cargar_precios_vigentes,
+    calcular_benchmark_dolar_efectivo,
+    top_oportunidades,
+)
+from reporte_oportunidades import generar_reporte
+from src.utils.logger import get_logger
+
+logger = get_logger(__name__)
+
+APP_VERSION = "1.0.0"
+UMBRAL_FRESCURA_HORAS = 48  # A partir de cuántas horas sin actualizar avisamos que una tienda quedó atrás
 
 # 1. Configuración de la página
 st.set_page_config(page_title="MTG Price Tracker", layout="wide", page_icon="🧙‍♂️")
-st.title("🧙‍♂️ MTG Price Tracker - Mercado Secundario")
-
-# 2. Conexión a la Base de Datos
-engine = create_engine("sqlite:///mtg_tracker.db")
 
 @st.cache_data(ttl=60)
-def load_data():
-    # Nueva consulta SQL: Rescata la última ejecución INDEPENDIENTE de cada tienda
-    query = """
-        WITH UltimaExtraccionPorTienda AS (
-            SELECT tienda_id, MAX(ejecucion_id) as last_run 
-            FROM fact_precios
-            GROUP BY tienda_id
-        ),
-        PreciosVigentes AS (
-            SELECT 
-                c.nombre AS Carta,
-                c.mazo AS Mazo,
-                t.nombre AS Tienda,
-                p.edicion AS Edicion,
-                p.acabado AS Acabado,
-                p.idioma AS Idioma,
-                p.estado AS Estado,
-                p.variantes AS Variantes,
-                p.precio_clp,
-                p.fecha_extraccion
-            FROM fact_precios p
-            JOIN dim_cartas c ON p.carta_id = c.id
-            JOIN dim_tiendas t ON p.tienda_id = t.id
-            JOIN UltimaExtraccionPorTienda ue 
-                ON p.tienda_id = ue.tienda_id 
-                AND p.ejecucion_id = ue.last_run
-        )
-        SELECT 
-            Carta, Mazo, Tienda, Edicion, Acabado, Idioma, Estado, Variantes, 
-            MIN(precio_clp) AS Precio_CLP, 
-            MAX(fecha_extraccion) AS Fecha_Registro
-        FROM PreciosVigentes
-        GROUP BY 
-            Carta, Mazo, Tienda, Edicion, Acabado, Idioma, Estado, Variantes
-        ORDER BY 
-            Carta ASC, Precio_CLP ASC
-    """
+def load_data() -> pd.DataFrame:
+    # Rescata la última ejecución INDEPENDIENTE de cada tienda (CLAUDE.md #2)
     try:
-        df = pd.read_sql_query(query, engine)
-        return df
+        return cargar_precios_vigentes(engine)
     except Exception as e:
+        logger.error(f"Error cargando base de datos: {e}", exc_info=True)
         st.error(f"Error cargando base de datos: {e}")
         return pd.DataFrame()
-    
+
 df = load_data()
+
+col_titulo, col_refrescar = st.columns([5, 1])
+with col_titulo:
+    st.title("🧙‍♂️ MTG Price Tracker - Mercado Secundario")
+with col_refrescar:
+    st.write("")
+    st.button(
+        "🔄 Refrescar datos",
+        on_click=load_data.clear,
+        use_container_width=True,
+        help="Limpia el caché (60s) y vuelve a consultar la base de datos. Útil justo después de correr `uv run main.py`.",
+    )
+
+# --- SESIÓN HTTP REUTILIZABLE PARA SCRYFALL (evita reabrir conexión en cada carta) ---
+_scryfall_session = requests.Session()
 
 # --- FUNCIÓN PARA OBTENER IMÁGENES DE SCRYFALL ---
 @st.cache_data(ttl=86400) # Cacheamos por 24 hrs para que la app vuele y no saturar Scryfall
@@ -67,7 +59,7 @@ def get_scryfall_image_url(carta_nombre: str, edicion: str = None) -> str:
             # 1. Intentamos buscar la carta exacta por Nombre y Edición
             query = f'!"{carta_nombre}" set:"{edicion}"'
             url = f"https://api.scryfall.com/cards/search?q={urllib.parse.quote_plus(query)}"
-            res = requests.get(url, timeout=5)
+            res = _scryfall_session.get(url, timeout=5)
             if res.status_code == 200:
                 data = res.json()
                 if data.get('data'):
@@ -81,8 +73,9 @@ def get_scryfall_image_url(carta_nombre: str, edicion: str = None) -> str:
         # pedimos la imagen por defecto usando el endpoint rápido 'named'
         safe_name = urllib.parse.quote_plus(carta_nombre)
         return f"https://api.scryfall.com/cards/named?exact={safe_name}&format=image&version=normal"
-    except Exception:
+    except Exception as e:
         # 3. Fallback de emergencia
+        logger.warning(f"Fallo consultando imagen en Scryfall para '{carta_nombre}' [{edicion}]: {e}")
         safe_name = urllib.parse.quote_plus(carta_nombre)
         return f"https://api.scryfall.com/cards/named?exact={safe_name}&format=image&version=normal"
 
@@ -98,7 +91,7 @@ else:
 
     cartas_seleccionadas = st.sidebar.multiselect("Filtrar por Carta", options=sorted(df['Carta'].unique()))
     tiendas_seleccionadas = st.sidebar.multiselect("Filtrar por Tienda", options=sorted(df['Tienda'].unique()))
-    
+
     # Aplicar filtros secuencialmente
     df_filtrado = df.copy()
     if mazos_seleccionados:
@@ -113,58 +106,107 @@ else:
     col1.metric("Cartas Buscadas", df_filtrado['Carta'].nunique())
     col2.metric("Tiendas Extraídas", df_filtrado['Tienda'].nunique())
     col3.metric("Ofertas Activas (Último Stock)", len(df_filtrado))
-    
+
+    # --- Frescura de los datos por tienda (CLAUDE.md #2: cada tienda corre independiente) ---
+    # `Fecha_Registro` llega en UTC con zona explícita: la antigüedad se calcula
+    # contra un "ahora" también en UTC y solo se convierte a local para mostrarla.
+    ultima_actualizacion = df.groupby('Tienda')['Fecha_Registro'].max().reset_index()
+    ultima_actualizacion['Horas desde la última extracción'] = (
+        (pd.Timestamp.now(tz='UTC') - ultima_actualizacion['Fecha_Registro']).dt.total_seconds() / 3600
+    )
+    ultima_actualizacion['Fecha_Registro'] = a_hora_local(ultima_actualizacion['Fecha_Registro'])
+
+    tiendas_desactualizadas = ultima_actualizacion[ultima_actualizacion['Horas desde la última extracción'] > UMBRAL_FRESCURA_HORAS]
+    if not tiendas_desactualizadas.empty:
+        lista_tiendas = ", ".join(tiendas_desactualizadas['Tienda'])
+        st.warning(f"⚠️ Llevan más de {UMBRAL_FRESCURA_HORAS}h sin actualizarse: {lista_tiendas}")
+
+    with st.expander("🕒 Última actualización por tienda"):
+        st.dataframe(
+            ultima_actualizacion.rename(columns={'Fecha_Registro': 'Última extracción'}),
+            use_container_width=True, hide_index=True,
+            column_config={
+                "Horas desde la última extracción": st.column_config.NumberColumn(format="%.1f h"),
+            },
+        )
+
+    st.divider()
+
+    # --- TOP 5 OPORTUNIDADES DEL DÍA (global, no depende de los filtros laterales) ---
+    col_titulo_top5, col_accion_top5 = st.columns([4, 1])
+    with col_titulo_top5:
+        st.subheader("🥇 Top 5 Oportunidades del Día (Dólar Efectivo)")
+        st.caption("Ranking global de todo el catálogo rastreado hoy. No se ve afectado por los filtros laterales.")
+    with col_accion_top5:
+        if st.button("🔄 Generar reporte", use_container_width=True):
+            with st.spinner("Generando reporte..."):
+                ruta_reporte = generar_reporte(engine=engine)
+            if ruta_reporte:
+                st.success(f"Reporte guardado en `{ruta_reporte}`")
+            else:
+                st.warning("No hay datos suficientes todavía para generar el reporte.")
+
+    df_benchmark_global = calcular_benchmark_dolar_efectivo(df, tasa_ref=TASA_USD_CLP_REFERENCIA)
+    df_top5 = top_oportunidades(df_benchmark_global, n=5)
+
+    if df_top5.empty:
+        st.info("Todavía no hay suficientes precios locales y de Card Kingdom para calcular oportunidades.")
+    else:
+        cols_top5 = st.columns(len(df_top5))
+        for rank, (col, (_, row)) in enumerate(zip(cols_top5, df_top5.iterrows()), start=1):
+            with col:
+                img_url = get_scryfall_image_url(row['Carta'], row['Edicion'])
+                st.image(img_url, use_container_width=True)
+                st.markdown(f"**#{rank} · {row['Carta']}**")
+                st.caption(f"{row['Tienda']} — {row['Edicion'] or 'Edición no especificada'}")
+                ahorro_pct = (TASA_USD_CLP_REFERENCIA - row['Dolar_Efectivo']) / TASA_USD_CLP_REFERENCIA * 100
+                st.metric(
+                    "Dólar Efectivo",
+                    f"${row['Dolar_Efectivo']:,.0f}".replace(',', '.'),
+                    delta=f"{ahorro_pct:+.1f}% vs. ${TASA_USD_CLP_REFERENCIA}",
+                )
+                st.caption(row['Evaluación'])
+
+    reporte_hoy = Path("reportes") / f"oportunidades_{datetime.now().strftime('%Y-%m-%d')}.md"
+    if reporte_hoy.exists():
+        st.download_button(
+            "📄 Descargar reporte Markdown de hoy",
+            data=reporte_hoy.read_text(encoding='utf-8'),
+            file_name=reporte_hoy.name,
+            mime="text/markdown",
+        )
+
     st.divider()
 
     st.subheader("🏆 Oportunidades de Compra vs. Mercado (Card Kingdom)")
-    
-    # Cálculos de Benchmark (Sin cambios)
-    is_ck = df_filtrado['Tienda'].str.contains('cardkingdom', case=False)
-    df_ck = df_filtrado[is_ck].copy()
-    df_local = df_filtrado[~is_ck].copy()
-    
-    df_ck_min = df_ck.loc[df_ck.groupby('Carta')['Precio_CLP'].idxmin()][['Carta', 'Precio_CLP']].rename(columns={'Precio_CLP': 'Precio_CK_CLP'}) if not df_ck.empty else pd.DataFrame(columns=['Carta', 'Precio_CK_CLP'])
-    df_local_min = df_local.loc[df_local.groupby('Carta')['Precio_CLP'].idxmin()].copy() if not df_local.empty else pd.DataFrame()
 
-    if not df_local_min.empty:
-        df_benchmark = pd.merge(df_local_min, df_ck_min, on='Carta', how='left')
-        tasa_ref = 800
-        df_benchmark['CK_USD'] = df_benchmark['Precio_CK_CLP'] / tasa_ref
-        df_benchmark['Dolar_Efectivo'] = np.where(
-            (df_benchmark['CK_USD'] > 0) & df_benchmark['CK_USD'].notna(),
-            df_benchmark['Precio_CLP'] / df_benchmark['CK_USD'],
-            np.nan
-        )
-        
-        def evaluar_oportunidad(row):
-            if pd.isna(row['CK_USD']) or row['CK_USD'] == 0: return "⚪ Sin Ref."
-            if row['Dolar_Efectivo'] < 800: return "🟢 Conveniente"
-            if row['Dolar_Efectivo'] <= 850: return "🟡 Mercado"
-            return "🔴 Sobreprecio"
-            
-        df_benchmark['Evaluación'] = df_benchmark.apply(evaluar_oportunidad, axis=1)
-        
-        df_resumen = df_local_min.groupby('Tienda')['Precio_CLP'].sum().reset_index()
+    df_benchmark = calcular_benchmark_dolar_efectivo(df_filtrado, tasa_ref=TASA_USD_CLP_REFERENCIA)
+
+    if not df_benchmark.empty:
+        df_resumen = df_benchmark.groupby('Tienda')['Precio_CLP'].sum().reset_index()
         df_resumen.loc[len(df_resumen)] = ['TOTAL', df_resumen['Precio_CLP'].sum()]
         df_resumen.columns = ['Tienda / Resumen', 'Monto a Pagar']
 
         # --- MAQUETACIÓN INTERACTIVA ---
         col_img, col_data_resumen, col_data_detalle = st.columns([1, 1.2, 3])
-        
+
         # 1. Reservamos el espacio visual para la imagen a la izquierda
         img_placeholder = col_img.empty()
-            
+
         with col_data_resumen:
             st.markdown("**🛒 Carrito Optimizado**")
             st.dataframe(
-                df_resumen.style.format({'Monto a Pagar': lambda x: f"${int(x):,} CLP".replace(',', '.')}), 
-                use_container_width=True, hide_index=True
+                df_resumen,
+                use_container_width=True, hide_index=True,
+                column_config={
+                    "Monto a Pagar": st.column_config.NumberColumn("Monto a Pagar", format="$%d CLP"),
+                },
             )
-            
+
         with col_data_detalle:
             st.markdown("**📊 Haz clic en una fila para ver la carta**")
             columnas_mostrar = ['Carta', 'Tienda', 'Edicion', 'Estado', 'Precio_CLP', 'CK_USD', 'Dolar_Efectivo', 'Evaluación']
-            
+
             # Usamos st.column_config para formatear el dataframe en vez de .style
             # ya que es el método oficial recomendado para tablas interactivas
             config_columnas = {
@@ -172,17 +214,17 @@ else:
                 "CK_USD": st.column_config.NumberColumn("CK_USD", format="$%.2f"),
                 "Dolar_Efectivo": st.column_config.NumberColumn("Dolar_Efectivo", format="$%d CLP"),
             }
-            
+
             # 2. Dibujamos la tabla con on_select="rerun"
             event = st.dataframe(
-                df_benchmark[columnas_mostrar], 
-                use_container_width=True, 
+                df_benchmark[columnas_mostrar],
+                use_container_width=True,
                 hide_index=True,
                 on_select="rerun",           # <-- Activa la interactividad
                 selection_mode="single-row", # <-- Solo permite seleccionar una carta a la vez
                 column_config=config_columnas
             )
-            
+
         # 3. Lógica para determinar qué carta inyectar en el espacio reservado
         if event.selection.rows:
             # Si hay un clic activo, tomamos el índice de la fila seleccionada
@@ -200,11 +242,31 @@ else:
 
     st.divider()
 
-    st.subheader("📋 Catálogo Vigente Completo")
+    col_titulo_catalogo, col_descarga_catalogo = st.columns([4, 1])
+    with col_titulo_catalogo:
+        st.subheader("📋 Catálogo Vigente Completo")
     df_display = df_filtrado.copy()
-    df_display['Fecha_Registro'] = pd.to_datetime(df_display['Fecha_Registro']).dt.strftime('%Y-%m-%d %H:%M')
-    
+    df_display['Fecha_Registro'] = a_hora_local(df_display['Fecha_Registro']).dt.strftime('%Y-%m-%d %H:%M')
+    with col_descarga_catalogo:
+        st.write("")
+        st.download_button(
+            "⬇️ Descargar CSV",
+            data=df_display.to_csv(index=False).encode('utf-8-sig'),
+            file_name=f"catalogo_vigente_{datetime.now().strftime('%Y-%m-%d')}.csv",
+            mime="text/csv",
+            use_container_width=True,
+        )
+
     st.dataframe(
-        df_display.style.format({'Precio_CLP': lambda x: f"${int(x):,} CLP".replace(',', '.')}), 
-        use_container_width=True, hide_index=True
+        df_display,
+        use_container_width=True, hide_index=True,
+        column_config={
+            "Precio_CLP": st.column_config.NumberColumn("Precio_CLP", format="$%d CLP"),
+        },
+    )
+
+    st.divider()
+    st.caption(
+        f"MTG Price Tracker v{APP_VERSION} · Tasa de referencia CLP/USD: {TASA_USD_CLP_REFERENCIA} · "
+        f"Datos vigentes al {a_hora_local(df['Fecha_Registro']).max().strftime('%Y-%m-%d %H:%M')} (hora local)"
     )

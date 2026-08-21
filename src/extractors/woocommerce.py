@@ -1,47 +1,50 @@
-import asyncio
+import html
 import httpx
+import re
 import urllib.parse
 from typing import List, Dict
+from src.extractors.base import BaseExtractor
 from src.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-class WooCommerceExtractor:
-    def __init__(self, delay_entre_peticiones: float = 2.0):
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-            'Accept': 'application/json',
-            'Accept-Language': 'es-CL,es;q=0.9,en;q=0.8',
-            'Upgrade-Insecure-Requests': '1'
-        }
-        self.delay = delay_entre_peticiones
+# Separadores con los que algunas tiendas anexan condición/idioma al nombre del
+# producto: "Sol Ring — Near Mint · Spanish" (rhysticbazaar.cl). Se exige espacio
+# a ambos lados para no tocar nombres con guion ("Lim-Dûl's Vault") ni cartas
+# dobles ("Fire // Ice").
+_SUFIJO_ATRIBUTOS = re.compile(r"\s+[—–·|]\s+")
 
-    async def _get_with_retry(self, client: httpx.AsyncClient, url: str, max_retries: int = 3):
-        for attempt in range(max_retries):
-            try:
-                response = await client.get(url, follow_redirects=True)
-                if response.status_code in [403, 429]:
-                    wait_time = 2 ** attempt
-                    logger.warning(f"Bloqueo HTTP {response.status_code} en {url}. Reintentando en {wait_time}s...")
-                    await asyncio.sleep(wait_time)
-                    continue
-                response.raise_for_status()
-                return response
-            except httpx.HTTPError as e:
-                if attempt == max_retries - 1:
-                    logger.error(f"Fallo definitivo en la consulta a la API WooCommerce {url}: {e}")
-        return None
+class WooCommerceExtractor(BaseExtractor):
+    def __init__(self, delay_entre_peticiones: float = 2.0):
+        super().__init__(
+            delay_entre_peticiones=delay_entre_peticiones,
+            headers={
+                'Accept-Language': 'es-CL,es;q=0.9,en;q=0.8',
+                'Upgrade-Insecure-Requests': '1',
+            },
+        )
+
+    @staticmethod
+    def _limpiar_nombre(nombre_producto: str) -> str:
+        """Recorta los atributos que algunas tiendas anexan al nombre del producto.
+
+        rhysticbazaar.cl publica "Sol Ring — Near Mint · Spanish"; la condición y el
+        idioma vienen además en `attributes`, así que acá solo nos interesa quedarnos
+        con el nombre de la carta para poder compararlo de forma exacta.
+        cardnexus.cl y el resto, que ya publican el nombre limpio, quedan intactos.
+        """
+        return _SUFIJO_ATRIBUTOS.split(nombre_producto, maxsplit=1)[0].strip()
 
     async def _fetch_single_card(self, client: httpx.AsyncClient, tienda_url: str, carta_nombre: str) -> List[Dict]:
         busqueda_limpia = carta_nombre.split("'")[0] if "'" in carta_nombre else carta_nombre
         query = urllib.parse.quote(busqueda_limpia)
-        
+
         # Aumentamos el per_page a 100 para que no corte las variantes en cartas con muchos homónimos
         api_url = f"{tienda_url.rstrip('/')}/wp-json/wc/store/products?search={query}&per_page=100"
-        
+
         resultados = []
         response = await self._get_with_retry(client, api_url)
-        
+
         if not response or response.status_code != 200:
             return resultados
 
@@ -52,18 +55,27 @@ class WooCommerceExtractor:
             return resultados
 
         for prod in productos:
-            nombre_producto = prod.get('name', '').replace('&#8217;', "'").replace('&amp;', '&')
-            
-            if carta_nombre.lower() not in nombre_producto.lower():
+            # WooCommerce devuelve el nombre con entidades HTML ("Inventors&#8217; Fair",
+            # "R&amp;D's Secret Lair"); html.unescape cubre todas, no solo dos casos.
+            nombre_producto = self._limpiar_nombre(html.unescape(prod.get('name', '')))
+
+            # El buscador de WooCommerce responde por subcadena y trae homónimos
+            # ('Defiler of Flesh' al buscar 'Defile'): exigimos el nombre exacto.
+            if not self._nombre_coincide(carta_nombre, nombre_producto):
+                logger.debug(f"Descartado por filtro estricto: '{nombre_producto}' no es '{carta_nombre}'")
                 continue
 
             if not prod.get('is_purchasable', False) or not prod.get('is_in_stock', False):
                 continue
-            
-            precio_raw = prod.get('prices', {}).get('price', '0')
+
+            # La Store API declara la escala del precio: en CLP `currency_minor_unit`
+            # es 0, así que 2690 son $2.690 y no $26,90.
+            precios = prod.get('prices', {})
             try:
-                precio_clp = float(precio_raw) / 100 if float(precio_raw) > 1000 and float(precio_raw) % 100 == 0 else float(precio_raw)
-            except ValueError:
+                precio_clp = self._normalizar_precio_clp(
+                    precios.get('price', '0'), int(precios.get('currency_minor_unit', 0))
+                )
+            except (ValueError, TypeError):
                 continue
 
             if precio_clp <= 0:
@@ -72,7 +84,7 @@ class WooCommerceExtractor:
             # Separar Edición de otros atributos para estructurar el nombre
             edicion_api = ""
             otros_atributos = []
-            
+
             for attr in prod.get('attributes', []):
                 nombre_attr = attr.get('name', '').lower()
                 for term in attr.get('terms', []):
@@ -82,7 +94,7 @@ class WooCommerceExtractor:
                         edicion_api = term_name
                     else:
                         otros_atributos.append(term_name)
-            
+
             # Formatear: "NombreCarta [Edición] - Atributos Extra"
             titulo_tienda = nombre_producto
             if edicion_api:
@@ -90,33 +102,8 @@ class WooCommerceExtractor:
             if otros_atributos:
                 titulo_tienda += f" - {' '.join(otros_atributos)}"
 
-            resultados.append({
-                'tienda_url': tienda_url.rstrip('/'),
-                'carta_nombre': carta_nombre,
-                'titulo_tienda': titulo_tienda,
-                'precio_clp': precio_clp
-            })
-                
+            resultados.append(
+                self._construir_resultado(tienda_url, carta_nombre, titulo_tienda, precio_clp)
+            )
+
         return resultados
-
-    async def _procesar_tienda(self, client: httpx.AsyncClient, tienda: str, cartas: List[str]) -> List[Dict]:
-        resultados_tienda = []
-        total_cartas = len(cartas)
-        tienda_nombre = tienda.replace("https://", "").replace("www.", "").rstrip('/')
-        
-        for i, carta in enumerate(cartas, 1):
-            logger.info(f"[{tienda_nombre}] Buscando ({i}/{total_cartas}): '{carta}'")
-            res = await self._fetch_single_card(client, tienda, carta)
-            resultados_tienda.extend(res)
-            
-            if i < total_cartas:
-                await asyncio.sleep(self.delay)
-                
-        return resultados_tienda
-
-    async def extraer_precios_batch(self, tiendas: List[str], cartas: List[str]) -> List[Dict]:
-        logger.info(f"Iniciando extracción asíncrona WooCommerce: {len(cartas)} cartas en {len(tiendas)} tiendas.")
-        async with httpx.AsyncClient(headers=self.headers, http2=True, timeout=25.0) as client:
-            tareas = [self._procesar_tienda(client, tienda, cartas) for tienda in tiendas]
-            resultados_brutos = await asyncio.gather(*tareas)
-            return [item for sublist in resultados_brutos for item in sublist]

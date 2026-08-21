@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 from sqlalchemy.orm import declarative_base, relationship
 
@@ -32,7 +32,9 @@ class HistorialPrecio(Base):
     variantes = Column(String)
     
     precio_clp = Column(Float, nullable=False)
-    fecha_extraccion = Column(DateTime, default=datetime.utcnow)
+    # UTC con zona explícita: `utcnow()` está deprecado y devolvía un naive que
+    # el dashboard restaba contra hora local, inventando 4 h de antigüedad.
+    fecha_extraccion = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     # Relaciones ORM
     carta = relationship("Carta")
